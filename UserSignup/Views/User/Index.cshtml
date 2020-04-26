@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+    <h1>User Signup!</h1>
+
+    @if (TempData["Name"] != null)
+    {
+        <p>Hello, @TempData["Name"]!</p>
+
+    }
+    else
+    {
+        <p>Hello Guest, please add yourself.</p>
+    }
+
+    
+
+    <p><a asp-controller="User" asp-action="Add">Add user</a></p>
+
+
+}
