@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UserSignup.Models;
+using UserSignup.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,19 +15,33 @@ namespace UserSignup.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View();
+            string userName = UserData.GetUser().Username;
+            return View((object)userName);
         }
+            
 
         public IActionResult Add()
         {
-            return View();
+            AddUserViewModel newModel = new AddUserViewModel();
+            return View(newModel);
         }
 
         [HttpPost]
-        [Route("/User/Add")]
-        public IActionResult Add(User user, string verify)
+        public IActionResult Add(AddUserViewModel newUser)
         {
-            if(string.Equals(user.Password, verify))
+            if (ModelState.IsValid)
+            {
+                UserData.SetValues(newUser.Username, newUser.Email, newUser.Password);
+
+                return Redirect("/User");
+            }
+            else
+            {
+                return View(newUser);
+            }
+
+            /*
+            if (string.Equals(user.Password, verify))
             {
                 TempData["Name"] = user.Username;
                 return Redirect("/User");
@@ -39,6 +54,7 @@ namespace UserSignup.Controllers
 
                 return View();
             }
+            */
 
         }
     }
